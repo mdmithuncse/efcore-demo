@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:    
+  efcoredemo.webapi:
+    image: ${DOCKER_REGISTRY-}efcoredemowebapi
+    container_name: efcoredemo-web-api
+    build:
+      context: .
+      dockerfile: src/EFCoreDemo.WebApi/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  efcoredemo.database:
+    image: postgres:latest
+    container_name: efcoredemo-database
+    environment:
+      - POSTGRES_DB=efcoredemo-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./.containers/emobile-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - efcoredemo-network
+  
+networks:
+  efcoredemo-network:
+    driver: bridge
