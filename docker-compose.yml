@@ -22,9 +22,3 @@ services:
       - ./.containers/emobile-db:/var/lib/postgresql/data
     ports:
       - 5432:5432
-    networks:
-      - efcoredemo-network
-  
-networks:
-  efcoredemo-network:
-    driver: bridge
