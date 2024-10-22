@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EFCoreDemo.InnerJoin": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

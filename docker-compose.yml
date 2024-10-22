@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+  efcoredemo.leftjoin:
+    image: ${DOCKER_REGISTRY-}efcoredemoleftjoin
+    container_name: efcoredemoleftjoin
+    build:
+      context: .
+      dockerfile: src/EFCoreDemo.LeftJoin/Dockerfile
+
+  efcoredemo.rightjoin:
+    image: ${DOCKER_REGISTRY-}efcoredemorightjoin
+    container_name: efcoredemorightjoin
+    build:
+      context: .
+      dockerfile: src/EFCoreDemo.RightJoin/Dockerfile
+
+  efcoredemo.innerjoin:
+    image: ${DOCKER_REGISTRY-}efcoredemoinnerjoin
+    container_name: efcoredemoinnerjoin
+    build:
+      context: .
+      dockerfile: src/EFCoreDemo.InnerJoin/Dockerfile
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-db
+    environment:
+        ACCEPT_EULA: Y
+        MSSQL_SA_PASSWORD: 'Passw0rd'
+        MSSQL_DATA_DIR: /var/opt/mssql/data
+        MSSQL_PID: Developer
+        MSSQL_TCP_PORT: 1433
+        MSSQL_DATABASE_NAME: efcoredemo-db
+    ports:
+        - "1433:1433"
+    volumes:
+        - ./.containers/data:/var/opt/mssql/data
+        - ./.containers/log:/var/opt/mssql/log
+        - ./.containers/secrets:/var/opt/mssql/secrets
+    restart: on-failure
+
+volumes:
+  data:
